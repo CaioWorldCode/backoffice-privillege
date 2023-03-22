@@ -1,0 +1,50 @@
+/* This file is reserved for overriding and extending the template styles. */
+
+.alert-title-item {
+    text-transform: capitalize;
+    font-weight: bold;
+}
+
+.alert-title {
+    font-weight: bold;
+}
+
+.align-items-center {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px
+}
+
+.border-red {
+    border: 1px dashed red;
+}
+
+.custom-tooltip {
+    width: 200px !important;
+    z-index: 9999 !important;
+}
+
+.align-vertical {
+    align-items: center;
+}
+
+.bottom-align {
+    display: flex;
+    align-items: flex-end;
+    height: 100%;
+}
+
+.vertical-align {
+    align-items: center;
+    height: 100%;
+    display: flex;
+}
+
+.bg-white{
+    background: white !important;
+    border: 1px solid  var(--primary) !important;
+    border-radius: var(--border-radius-md);
+}

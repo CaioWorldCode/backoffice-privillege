@@ -1,0 +1,149 @@
+/*
+*
+* Base
+*
+* Template styles for base core items such as root, html and body.
+*
+*/
+
+:root {
+  scroll-behavior: initial;
+}
+
+html {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  font-size: 16px;
+}
+
+body {
+  width: 100%;
+  margin: 0;
+  font-family: var(--font);
+  font-weight: 400;
+  color: var(--body);
+  background-color: var(--background);
+  font-size: 87.5%;
+}
+
+#root {
+  opacity: 0;
+}
+
+html:not([data-show='true']) body.spinner {
+  #root {
+    opacity: 0;
+  }
+
+  &:after {
+    border-color: #7d7d7d;
+    border-right-color: transparent;
+  }
+}
+
+html[data-show='true'] {
+  scroll-behavior: smooth;
+
+  #root {
+    opacity: 1;
+  }
+}
+
+// modal-card-user-points
+
+html[data-color*='light'] {
+  .divider-between {
+    border-right: 1px solid rgb(210, 210, 210) !important;
+  }
+
+  .modal-card-user-points {
+    background-color: rgb(243, 243, 243);
+    border-radius: 8px;
+    padding: 5px;
+    min-height: 90px;
+  }
+
+
+
+  .text-theme-dynamic {
+    color: 'black' !important;
+  }
+
+  body {
+    &.spinner {
+      &:after {
+        content: ' ';
+        display: inline-block;
+        width: 2rem;
+        height: 2rem;
+        vertical-align: text-bottom;
+        border: 0.25em solid rgba(0, 0, 0, 0.5);
+        border-right-color: transparent;
+        border-radius: 50%;
+        -webkit-animation: spinner-border 0.75s linear infinite;
+        animation: spinner-border 0.75s linear infinite;
+        left: 50%;
+        position: fixed;
+        top: 50%;
+        border-width: 0.15em;
+        margin-top: -15px;
+        margin-left: -15px;
+      }
+
+      #root {
+        opacity: 0.8 !important;
+        pointer-events: none;
+        user-select: none;
+      }
+    }
+  }
+}
+
+html[data-color*='dark'] {
+  .divider-between {
+    border-right: 1px solid rgb(45, 45, 45) !important;
+  }
+
+  .modal-card-user-points {
+    background-color: rgb(57, 57, 57);
+    border-radius: 8px;
+    padding: 5px;
+    min-height: 90px;
+
+  }
+
+  .text-theme-dynamic {
+    color: 'white' !important;
+  }
+
+  body {
+    &.spinner {
+      &:after {
+        content: ' ';
+        display: inline-block;
+        width: 2rem;
+        height: 2rem;
+        vertical-align: text-bottom;
+        border: 0.25em solid rgba(255, 255, 255, 0.5);
+        border-right-color: transparent;
+        border-radius: 50%;
+        -webkit-animation: spinner-border 0.75s linear infinite;
+        animation: spinner-border 0.75s linear infinite;
+        left: 50%;
+        position: fixed;
+        top: 50%;
+        border-width: 0.15em;
+        margin-top: -15px;
+        margin-left: -15px;
+      }
+
+      #root {
+        opacity: 0.8 !important;
+        pointer-events: none;
+        user-select: none;
+      }
+    }
+  }
+
+}
