@@ -27,6 +27,7 @@
     "date-fns": "^2.22.1",
     "draft-convert": "^2.1.13",
     "draft-js": "^0.11.7",
+    "draftjs-to-html": "^0.9.1",
     "formik": "^2.2.9",
     "fuse.js": "^6.4.6",
     "intro.js": "^4.2.2",

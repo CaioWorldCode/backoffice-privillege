@@ -5,17 +5,15 @@ import BreadcrumbList from 'components/breadcrumb-list/BreadcrumbList';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import { Field, Form, Formik } from 'formik';
 import { Editor } from "react-draft-wysiwyg";
-import { ContentState, convertToRaw, EditorState } from 'draft-js';
-import { convertFromHTML, convertToHTML } from 'draft-convert';
+import { ContentState, EditorState } from 'draft-js';
+import { convertToHTML } from 'draft-convert';
 import Swal from 'sweetalert2';
 import api from 'services/api';
 import { Redirect } from 'react-router-dom';
 import ReactSelect from 'react-select';
-import draftToHtml from "draftjs-to-html";
 import htmlToDraft from 'html-to-draftjs';
 
 const getInitialState = (defaultValue) => {
-    console.log(defaultValue)
     if (defaultValue) {
         const blocksFromHtml = htmlToDraft(defaultValue);
         const { contentBlocks, entityMap } = blocksFromHtml;
@@ -27,11 +25,7 @@ const getInitialState = (defaultValue) => {
 };
 
 const DashboardsAnalytic = (props) => {
-    // const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
-
-    // const [editorState, setEditorState] = useState(() => EditorState.createEmpty());
     const [editorState, setEditorState] = useState(false);
-
     const [convertedContent, setConvertedContent] = useState(null);
     const [redirect, setRedirect] = useState(false);
     const [redirectUrl, setRedirectUrl] = useState('');
@@ -39,9 +33,8 @@ const DashboardsAnalytic = (props) => {
     const [data, setData] = useState(false)
     const [loading, setLoading] = useState(true)
     const [loadingParams, setLoadingParams] = useState(true)
-    const [contractType, setContractType] = useState([])
+    const [newsletterType, setNewsletterType] = useState([])
     const [errors, setErrors] = useState([])
-
 
     useEffect(() => {
         if (!loading) {
@@ -61,18 +54,18 @@ const DashboardsAnalytic = (props) => {
         getParams()
     }, [])
 
-    const title = idEdit ? 'Editar Contrato' : 'Novo contrato'
-    const description = idEdit ? 'Editar Contrato' : 'Novo contrato'
+    const title = idEdit ? 'Editar notícia' : 'Nova notícia'
+    const description = idEdit ? 'Editar notícia' : 'Nova notícia'
 
     const breadcrumbs = [
         { to: '', text: 'Home' },
-        { to: 'contracts', text: idEdit ? 'Editar Contrato' : 'Novo contrato' },
-        { to: 'new', text: idEdit ? 'Editar Contrato' : 'Novo contrato' },
+        { to: 'newsletter', text: idEdit ? 'Editar notícia' : 'Nova notícia' },
+        { to: 'new', text: idEdit ? 'Editar notícia' : 'Nova notícia' },
     ]
 
     const loadContract = async (id) => {
         try {
-            const response = await api.get(`/api/v1/private/contract/${id}`)
+            const response = await api.get(`/api/v1/private/newsletter/${id}`)
             setData(response.data)
             if (response.data.content) {
                 setEditorState(getInitialState(`${response.data.content}`))
@@ -83,19 +76,19 @@ const DashboardsAnalytic = (props) => {
     }
 
     const getParams = async () => {
-        let array_contract_type = []
+        let array_newsletter_type = []
 
         try {
-            const response = await api.get(`/api/v1/private/contract_type`)
+            const response = await api.get(`/api/v1/private/newsletter_type`)
 
             response.data.data.map((row) => {
-                array_contract_type.push({
+                array_newsletter_type.push({
                     label: row.name,
                     value: row.id
                 })
             })
 
-            setContractType(array_contract_type)
+            setNewsletterType(array_newsletter_type)
 
         } catch (error) {
 
@@ -136,7 +129,7 @@ const DashboardsAnalytic = (props) => {
                                     initialValues={{
                                         title: data.title ? data.title : '',
                                         description: data ? data.description : '',
-                                        contract_type_id: data.contract_type_id ? data.contract_type_id : false,
+                                        newsletter_type_id: data.newsletter_type_id ? data.newsletter_type_id : false,
                                         active: true,
                                     }}
 
@@ -145,7 +138,7 @@ const DashboardsAnalytic = (props) => {
 
                                         if (values.title.length < 3) { array_errors.push({ 'label': 'O campo título é obrigatório' }) }
                                         if (values.description.length < 3) { array_errors.push({ 'label': 'O campo descrição é obrigatório' }) }
-                                        if (!values.contract_type_id) { array_errors.push({ 'label': 'Informe um tipo de contrato' }) }
+                                        if (!values.newsletter_type_id) { array_errors.push({ 'label': 'Informe um tipo de notícia' }) }
 
                                         setErrors(array_errors)
 
@@ -156,11 +149,11 @@ const DashboardsAnalytic = (props) => {
                                         setErrors(false)
 
                                         try {
-                                            const response = await api.post(`/api/v1/private/contract/${data.id}`, {
+                                            const response = await api.post(`/api/v1/private/newsletter/${data.id}`, {
                                                 title: values.title,
                                                 description: values.description,
                                                 content: convertedContent,
-                                                contract_type_id: values.contract_type_id,
+                                                newsletter_type_id: values.newsletter_type_id,
                                                 active: true,
                                             })
 
@@ -212,13 +205,13 @@ const DashboardsAnalytic = (props) => {
                                                 <Col xs={2}></Col>
                                                 <Col xs={8}>
                                                     <div className="mb-3 form-group tooltip-end-top">
-                                                        <div className='label'> Tipo de contato </div>
+                                                        <div className='label'> Tipo de notícia </div>
                                                         <ReactSelect
                                                             placeholder=""
                                                             classNamePrefix="react-select"
-                                                            options={contractType}
-                                                            value={contractType.filter(option => option.value === values.contract_type_id)}
-                                                            onChange={e => setFieldValue('contract_type_id', e.value)}
+                                                            options={newsletterType}
+                                                            value={newsletterType.filter(option => option.value === values.newsletter_type_id)}
+                                                            onChange={e => setFieldValue('newsletter_type_id', e.value)}
                                                         />
                                                     </div>
                                                 </Col>
@@ -287,7 +280,7 @@ const DashboardsAnalytic = (props) => {
 
                                             if (values.title.length < 3) { array_errors.push({ 'label': 'O campo título é obrigatório' }) }
                                             if (values.description.length < 3) { array_errors.push({ 'label': 'O campo descrição é obrigatório' }) }
-                                            if (!values.contract_type_id) { array_errors.push({ 'label': 'Informe um tipo de contrato' }) }
+                                            if (!values.newsletter_type_id) { array_errors.push({ 'label': 'Informe um tipo de notícia' }) }
 
                                             setErrors(array_errors)
 
@@ -298,10 +291,10 @@ const DashboardsAnalytic = (props) => {
                                             setErrors(false)
 
                                             try {
-                                                const response = await api.post(`/api/v1/private/contract`, {
+                                                const response = await api.post(`/api/v1/private/newsletter`, {
                                                     title: values.title,
                                                     description: values.description,
-                                                    contract_type_id: values.contract_type_id,
+                                                    newsletter_type_id: values.newsletter_type_id,
                                                     content: convertedContent,
                                                     active: true,
                                                 })
@@ -358,9 +351,9 @@ const DashboardsAnalytic = (props) => {
                                                             <ReactSelect
                                                                 placeholder=""
                                                                 classNamePrefix="react-select"
-                                                                options={contractType}
-                                                                value={contractType.filter(option => option.value === values.contract_type_id)}
-                                                                onChange={e => setFieldValue('contract_type_id', e.value)}
+                                                                options={newsletterType}
+                                                                value={newsletterType.filter(option => option.value === values.newsletter_type_id)}
+                                                                onChange={e => setFieldValue('newsletter_type_id', e.value)}
                                                             />
                                                         </div>
                                                     </Col>

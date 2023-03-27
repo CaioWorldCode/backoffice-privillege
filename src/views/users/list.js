@@ -56,7 +56,7 @@ const Component = () => {
         pageLimit = limit
 
         try {
-            let url = `/api/v1/private/user/list?order=${orderBy}&limit=${pageLimit}&page=${page}&search=${searchField}`
+            let url = `/api/v1/private/users/list?order=${orderBy}&limit=${pageLimit}&page=${page}&search=${searchField}`
 
             if (startDate && endDate) {
                 url += `&start=${moment(startDate).format('YYYY-MM-DD')}&end=${moment(endDate).format('YYYY-MM-DD')}`
@@ -443,7 +443,7 @@ const Component = () => {
 
                         onSubmit={async (values, { resetForm }) => {
                             try {
-                                const response = await api.post(`/api/v1/private/user/create`, values)
+                                const response = await api.post(`/api/v1/private/users/create`, values)
 
                                 resetForm()
 
@@ -538,7 +538,7 @@ const Component = () => {
                 ? <>
                     <Modal
                         show={modalView}
-                        size='lg'
+                        size='md'
                         centered
                         onHide={() => setModalView(false)}
                     >
@@ -598,7 +598,7 @@ const Component = () => {
             {/* MODAL EDIT */}
             <Modal
                 show={modalEdit}
-                size='lg'
+                size='md'
                 centered
                 onHide={() => setModalEdit(false)}
             >
@@ -628,7 +628,7 @@ const Component = () => {
 
                         onSubmit={async (values, { resetForm }) => {
                             try {
-                                const response = await api.post(`/api/v1/private/user/update/${userData?.id}`, values)
+                                const response = await api.post(`/api/v1/private/users/update/${userData?.id}`, values)
 
                                 resetForm()
 
@@ -717,7 +717,7 @@ const Component = () => {
 
             <Modal
                 show={modalChangePass}
-                size='lg'
+                size='md'
                 centered
                 onHide={() => setModalChangePass(false)}
             >
@@ -743,7 +743,7 @@ const Component = () => {
 
                         onSubmit={async (values, { resetForm }) => {
                             try {
-                                const response = await api.post(`/api/v1/private/user/update_password/${userData?.id}`, values)
+                                const response = await api.post(`/api/v1/private/users/update_password/${userData?.id}`, values)
 
                                 resetForm()
 

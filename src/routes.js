@@ -14,14 +14,23 @@ const config = {
 
 const users = {
 	list: lazy(() => import('views/users/list')),
-	user_type: lazy(() => import('views/config/user_type')),
 }
 
 const contracts = {
 	list: lazy(() => import('views/contracts/list')),
 	new: lazy(() => import('views/contracts/new')),
 	signatures: lazy(() => import('views/contracts/signatures')),
+	contract_type: lazy(() => import('views/contracts/contract_type')),
 }
+
+const newsletter = {
+	list: lazy(() => import('views/newsletter/list')),
+	new: lazy(() => import('views/newsletter/new')),
+	newsletter_type: lazy(() => import('views/newsletter/newsletter_type')),
+}
+
+const signatures = lazy(() => import('views/signatures/list'))
+
 
 
 const routesAndMenuItems = {
@@ -49,11 +58,9 @@ const routesAndMenuItems = {
 			icon: 'user',
 			protected: true,
 			subs: [
-				{ path: '/list', label: 'Contratos', component: contracts.list },
-			
+				{ path: '/list', label: 'Listar', component: users.list },
 			],
 		},
-
 
 		{
 			path: `${appRoot}/contracts`,
@@ -64,21 +71,29 @@ const routesAndMenuItems = {
 			subs: [
 				{ path: '/list', label: 'Contratos', component: contracts.list },
 				{ path: '/new', label: 'Novo contrato', component: contracts.new },
-				{ path: '/signatures', label: 'Assinaturas', component: contracts.signatures },
+				{ path: '/contract_type', label: 'Tipo de contrato', component: contracts.contract_type },
 			],
 		},
 
+		{
+			path: `${appRoot}/signatures`,
+			component: signatures,
+			label: 'Assinaturas',
+			icon: 'pen',
+			protected: true
+		},
 
 
 		{
-			path: `${appRoot}/config`,
-			component: config.index,
-			label: 'Configurações',
-			icon: 'gear',
+			path: `${appRoot}/newsletter`,
+			component: newsletter.index,
+			label: 'Notícias',
+			icon: 'news',
 			protected: true,
 			subs: [
-				{ path: '/contract_type', label: 'Tipo de documento', component: config.document_type },
-				{ path: '/newsletter_type', label: 'Tipo de notícia', component: config.newsletter_type },
+				{ path: '/list', label: 'Listar', component: newsletter.list },
+				{ path: '/new', label: 'Nova notícia', component: newsletter.new },
+				{ path: '/newsletter_type', label: 'Tipo de notícia', component: newsletter.newsletter_type },
 			],
 		},
 	],
@@ -92,6 +107,17 @@ const routesAndMenuItems = {
 			visible: false,
 			subs: [
 				{ path: '/edit/:slug', label: 'Editar contrato', component: contracts.new },
+			],
+		},
+		{
+			path: `${appRoot}/newsletter`,
+			component: newsletter.index,
+			label: 'Notícias',
+			icon: 'news',
+			protected: false,
+			visible: false,
+			subs: [
+				{ path: '/edit/:slug', label: 'Editar notícia', component: newsletter.new },
 			],
 		},
 	],

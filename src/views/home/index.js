@@ -4,6 +4,7 @@ import HtmlHead from 'components/html-head/HtmlHead';
 import BreadcrumbList from 'components/breadcrumb-list/BreadcrumbList';
 import api from 'services/api';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import ChartLogs from './chartLogs';
 
 
 const DashboardsAnalytic = () => {
@@ -16,6 +17,9 @@ const DashboardsAnalytic = () => {
     ]
 
     const [data, setData] = useState(false)
+    const [loading, setLoading] = useState(true)
+    const [logValues, setLogValues] = useState(false)
+    const [logLabels, setLogLabels] = useState(false)
 
     useEffect(() => {
 
@@ -27,6 +31,26 @@ const DashboardsAnalytic = () => {
         try {
             const response = await api.get(`/api/v1/private/dashboard/home`)
             setData(response.data.data)
+        } catch (error) {
+
+        }
+
+        try {
+            const response = await api.get(`/api/v1/private/dashboard/logs`)
+            setLoading(false)
+            let data = response.data
+            let array_values = []
+            let array_labels = []
+
+            Object.keys(data).forEach(function (key, index) {
+                let val = data[key]
+                let lab = key
+                array_values.push(val)
+                array_labels.push(lab)
+            })
+
+            setLogLabels(array_labels)
+            setLogValues(array_values)
         } catch (error) {
 
         }
@@ -191,6 +215,10 @@ const DashboardsAnalytic = () => {
                 </Col>
 
                 <Col sm="6">
+                    {!loading
+                        ? <ChartLogs label={logLabels} values={logValues} />
+                        : <></>
+                    }
 
                 </Col>
             </Row>
