@@ -180,7 +180,7 @@ const DashboardsAnalytic = () => {
                         </Card.Body>
                     </Card>
 
-                    {data.last_users.map((row, index) => {
+                    {data.last_users && data.last_users.map((row, index) => {
                         return (
                             <Card className="mb-2 sh-10 sh-md-8" key={index}>
                                 <Card.Body className="pt-0 pb-0 h-100">

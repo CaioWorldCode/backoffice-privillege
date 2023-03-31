@@ -4,14 +4,14 @@ export const IS_DEMO = false;
 export const IS_AUTH_GUARD_ACTIVE = true;
 export const SERVICE_URL = '/app';
 export const USE_MULTI_LANGUAGE = false;
-export const API_URL = 'http://127.0.0.1:8000';
-export const APP_URL = 'http://127.0.0.1:3000';
+export const API_URL = 'https://api-homolog.contaprivilege.com.br';
+export const APP_URL = 'https://app-homolog.contaprivilege.com.br';
 
 
 
 export const REACT_HELMET_PROPS = {
-	defaultTitle: 'Privillege',
-	titleTemplate: '%s | Admin Privillege',
+	defaultTitle: 'Privilege',
+	titleTemplate: '%s | Admin Privilege',
 };
 
 export const DEFAULT_PATHS = {
@@ -45,4 +45,4 @@ export const DEFAULT_USER = {
 	email: 'lisajackson@gmail.com',
 };
 
-export const REDUX_PERSIST_KEY = 'admin-privillege';
+export const REDUX_PERSIST_KEY = 'admin-privilege';

@@ -7,7 +7,7 @@ const api = axios.create({
 })
 
 
-let data = JSON.parse(localStorage.getItem('persist:admin-privillege'))
+let data = JSON.parse(localStorage.getItem('persist:admin-privilege'))
 data = JSON.parse(data.auth)
 
 
