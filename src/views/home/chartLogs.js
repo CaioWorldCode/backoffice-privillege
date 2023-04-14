@@ -1,188 +1,59 @@
-/* eslint-disable no-underscore-dangle,no-unused-vars */
-import React, { useEffect, useRef } from 'react';
-import { Chart, registerables } from 'chart.js';
-import { useSelector } from 'react-redux';
-import ReactDOM from 'react-dom';
-import CsLineIcons from 'cs-line-icons/CsLineIcons';
+import React from 'react';
+import {
+	Chart as ChartJS,
+	CategoryScale,
+	LinearScale,
+	BarElement,
+	Title,
+	Tooltip,
+	Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
 
-const ChartLogs = (props) => {
-	const { themeValues } = useSelector((state) => state.settings);
-	const chartContainer = useRef(null);
-	const tooltipRef = useRef(null);
+ChartJS.register(
+	CategoryScale,
+	LinearScale,
+	BarElement,
+	Title,
+	Tooltip,
+	Legend
+);
 
-	const ExternalTooltip = React.useCallback(({ chart, tooltip }) => {
-		let color = '';
-		let text = '';
-		let value = '';
-		let icon = '';
-		const positionY = chart.canvas.offsetTop;
-		const positionX = chart.canvas.offsetLeft;
-		const { opacity } = tooltip;
-
-		if (tooltipRef.current.opacity === 0) {
-			tooltipRef.current.style.opacity = 0;
-			return;
-		}
-
-		const left = `${positionX + tooltip.dataPoints[0].element.x - 75}px`;
-		const top = `${positionY + tooltip.caretY}px`;
-
-		if (tooltip.body) {
-			const { dataIndex, datasetIndex } = tooltip.dataPoints[0];
-			color = tooltip.labelColors[0].borderColor;
-			text = chart.data.labels[dataIndex].toLocaleUpperCase();
-			value = chart.data.datasets[datasetIndex].data[dataIndex];
-			icon = chart.data.datasets[datasetIndex].icon;
-		}
-
-		tooltipRef.current.classList.remove('above', 'below', 'no-transform');
-		if (tooltip.yAlign) {
-			tooltipRef.current.classList.add(tooltip.yAlign);
-		} else {
-			tooltipRef.current.classList.add('no-transform');
-		}
-
-		tooltipRef.current.style.opacity = opacity;
-		tooltipRef.current.style.left = left;
-		tooltipRef.current.style.top = top;
-
-		ReactDOM.render(
-			<>
-				<div
-					style={{ borderColor: color, borderWidth: 1, borderStyle: 'solid' }}
-					className="icon-container  d-flex align-middle align-items-center justify-content-center align-self-center rounded-xl sh-5 sw-5 rounded-xl me-3"
-				>
-					<CsLineIcons icon={icon} stroke={color} />
-				</div>
-				<div>
-					<span className="text d-flex align-middle text-alternate align-items-center text-small">{text}</span>
-					<span className="value d-flex align-middle text-body align-items-center cta-4">{value}</span>
-				</div>
-			</>,
-			tooltipRef.current
-		);
-	}, []);
-
-	const LegendLabels = React.useMemo(() => {
-		return {
-			font: {
-				size: 14,
-				family: themeValues.font,
+// eslint-disable-next-line import/no-anonymous-default-export
+export default function (props) {
+	const options = {
+		responsive: true,
+		maintainAspectRatio: false,
+		indexAxis: 'x',
+		elements: {
+			bar: {
+				borderWidth: 2,
 			},
-			padding: 20,
-			usePointStyle: true,
-			boxWidth: 10,
-		};
-	}, [themeValues]);
-
-	const data = React.useMemo(() => {
-		return {
-			labels: props.label,
-
-			datasets: [
-				{
-					label: 'Acessos',
-					icon: 'send',
-					borderColor: `rgba(77, 122,255)`,
-					backgroundColor: `rgba(77, 122,255,0.1)`,
-					data:props.values,
-				},
-				// {
-				// 	label: 'Pendentes',
-				// 	icon: 'send',
-				// 	borderColor: themeValues.secondary,
-				// 	backgroundColor: `rgba(${themeValues.secondaryrgb},0.1)`,
-				// 	data: [0,0,0,0,0,0],
-				// },
-
-				// {
-				// 	label: 'Atrasadas',
-				// 	icon: 'send',
-				// 	borderColor: `rgba(255, 77,77)`,
-				// 	backgroundColor: `rgba(255, 77,77,0.1)`,
-				// 	data: [0,0,0,0,0,0],
-				// },
-			],
-		};
-	}, [themeValues]);
-	const config = React.useMemo(() => {
-		return {
-			type: 'bar',
-			options: {
-				elements: {
-					bar: {
-						borderWidth: 1.5,
-						borderRadius: parseInt(themeValues.borderRadiusMd, 10),
-						borderSkipped: false,
-					},
-				},
-				plugins: {
-					crosshair: false,
-					datalabels: false,
-					legend: {
-						position: 'bottom',
-						labels: LegendLabels,
-					},
-					tooltip: {
-						enabled: false,
-						external: ExternalTooltip,
-					},
-					streaming: false,
-				},
-				interaction: {
-					intersect: true,
-					mode: 'point',
-				},
-				responsive: true,
-				maintainAspectRatio: false,
-				scales: {
-					y: {
-						// min: 0,
-						// max: 10,
-						grid: {
-							display: true,
-							lineWidth: 1,
-							color: themeValues.separatorLight,
-							drawBorder: false,
-						},
-						ticks: {
-							beginAtZero: true,
-							stepSize: 10,
-							padding: 8,
-							fontColor: themeValues.alternate,
-						},
-					},
-					x: {
-						grid: { display: false, drawBorder: false },
-					},
-				},
+		},
+		plugins: {
+			legend: {
+				position: 'bottom',
 			},
-			data,
-		};
-	}, [data, LegendLabels, ExternalTooltip, themeValues]);
+			title: {
+				display: true,
+				text: 'Acessos por mês',
+			},
+		},
+	};
 
-	useEffect(() => {
-		let myChart = null;
-		if (chartContainer && chartContainer.current) {
-			Chart.register(...registerables);
-			myChart = new Chart(chartContainer.current, config);
-		}
-		return () => {
-			if (myChart) {
-				myChart.destroy();
-			}
-		};
-	}, [config]);
+	const labels = props.label;
 
-	return (
-		<>
-			<canvas ref={chartContainer} />
-			<div
-				ref={tooltipRef}
-				className="custom-tooltip position-absolute bg-foreground rounded-md border border-separator pe-none p-3 d-flex z-index-1 align-items-center opacity-0 basic-transform-transition"
-			/>
-		</>
-	);
-};
+	const data = {
+		labels,
+		datasets: [
+			{
+				label: 'Acessos',
+				data: props.values,
+				borderColor: 'rgb(255, 99, 132)',
+				backgroundColor: 'rgba(255, 99, 132, 0.5)',
+			},
+		],
+	};
 
-export default React.memo(ChartLogs);
+	return <Bar height={300} options={options} data={data} />;
+}

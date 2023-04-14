@@ -17,7 +17,7 @@
     "autosuggest-trie": "^2.1.1",
     "axios": "^0.21.1",
     "axios-mock-adapter": "^1.19.0",
-    "chart.js": "^3.5.1",
+    "chart.js": "^3.9.1",
     "chartjs-adapter-luxon": "^1.0.0",
     "chartjs-plugin-crosshair": "^1.2.0",
     "chartjs-plugin-datalabels": "^2.0.0",
@@ -28,6 +28,7 @@
     "draft-convert": "^2.1.13",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
+    "faker": "^6.6.6",
     "formik": "^2.2.9",
     "fuse.js": "^6.4.6",
     "intro.js": "^4.2.2",
@@ -44,6 +45,7 @@
     "react-albus": "^2.0.0",
     "react-autosuggest": "^10.1.0",
     "react-bootstrap": "^2.0.0-rc.0",
+    "react-chartjs-2": "^5.2.0",
     "react-circular-progressbar": "^2.0.4",
     "react-color": "^2.19.3",
     "react-contexify": "^5.0.0",
@@ -119,6 +121,7 @@
     ]
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "concurrently": "^6.2.0",
     "eslint": "^7.28.0",

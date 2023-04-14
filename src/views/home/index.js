@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Row, Col, Card, Dropdown, Badge } from 'react-bootstrap';
+import { Row, Col, Card } from 'react-bootstrap';
 import HtmlHead from 'components/html-head/HtmlHead';
 import BreadcrumbList from 'components/breadcrumb-list/BreadcrumbList';
 import api from 'services/api';
 import CsLineIcons from 'cs-line-icons/CsLineIcons';
 import ChartLogs from './chartLogs';
+import ChartSignatures from './chartSignatures';
+import ChartSignaturesDay from './chartSignaturesDay';
 
 
 const DashboardsAnalytic = () => {
@@ -20,6 +22,12 @@ const DashboardsAnalytic = () => {
     const [loading, setLoading] = useState(true)
     const [logValues, setLogValues] = useState(false)
     const [logLabels, setLogLabels] = useState(false)
+
+    const [logLabels2, setLogLabels2] = useState(false)
+    const [logValues2, setLogValues2] = useState(false)
+
+    const [logLabels3, setLogLabels3] = useState(false)
+    const [logValues3, setLogValues3] = useState(false)
 
     useEffect(() => {
 
@@ -37,7 +45,7 @@ const DashboardsAnalytic = () => {
 
         try {
             const response = await api.get(`/api/v1/private/dashboard/logs`)
-            setLoading(false)
+
             let data = response.data
             let array_values = []
             let array_labels = []
@@ -54,6 +62,60 @@ const DashboardsAnalytic = () => {
         } catch (error) {
 
         }
+
+        try {
+            const response = await api.get(`/api/v1/private/dashboard/signatures`)
+
+            let data = response.data
+            let array_values = []
+            let array_labels = []
+
+            Object.keys(data).forEach(function (key, index) {
+                let val = data[key]
+                let lab = key
+                array_values.push(val)
+                array_labels.push(lab)
+            })
+
+            setLogLabels2(array_labels)
+            setLogValues2(array_values)
+
+        } catch (error) {
+
+        }
+        const date = new Date();
+
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+     
+        try {
+            const response = await api.get(`/api/v1/private/dashboard/signatures?format=days&month=${month}&year=${year}`)
+
+            let data = response.data
+
+            console.log(data)
+
+            let array_values = []
+            let array_labels = []
+
+            Object.keys(data).forEach(function (key, index) {
+               
+                let val = data[key]
+                let lab = key
+                
+                array_values.push(val)
+                array_labels.push(lab)
+            })
+
+
+            setLogLabels3(array_labels)
+            setLogValues3(array_values)
+
+        } catch (error) {
+
+        }
+
+        setLoading(false)
     }
 
 
@@ -150,7 +212,23 @@ const DashboardsAnalytic = () => {
             </Row>
 
             <Row className="g-2 mt-4">
+                <Col sm="12">
+                    {!loading
+                        ? <ChartLogs label={logLabels} values={logValues} />
+                        : <></>
+                    }
+
+                </Col>
+
                 <Col sm="6">
+                    <ChartSignatures label={logLabels2} values={logValues2} />
+                </Col>
+
+                <Col sm="6">
+                    <ChartSignaturesDay label={logLabels3} values={logValues3} />
+                </Col>
+
+                <Col sm="12" className="mt-2">
                     <Card className="mb-2 sh-10 sh-md-8">
                         <Card.Body className="pt-0 pb-0 h-100">
                             <Row className="w-100 h-100">
@@ -179,6 +257,8 @@ const DashboardsAnalytic = () => {
                             </Row>
                         </Card.Body>
                     </Card>
+
+
 
                     {data.last_users && data.last_users.map((row, index) => {
                         return (
@@ -214,13 +294,7 @@ const DashboardsAnalytic = () => {
                     })}
                 </Col>
 
-                <Col sm="6">
-                    {!loading
-                        ? <ChartLogs label={logLabels} values={logValues} />
-                        : <></>
-                    }
 
-                </Col>
             </Row>
 
         </>

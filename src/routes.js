@@ -32,6 +32,11 @@ const newsletter = {
 const signatures = lazy(() => import('views/signatures/list'))
 
 
+const uploads = {
+	list: lazy(() => import('views/uploads/list')),
+	new: lazy(() => import('views/uploads/new')),
+}
+
 
 const routesAndMenuItems = {
 	mainMenuItems: [
@@ -59,6 +64,18 @@ const routesAndMenuItems = {
 			protected: true,
 			subs: [
 				{ path: '/list', label: 'Listar', component: users.list },
+			],
+		},
+
+		{
+			path: `${appRoot}/uploads`,
+			component: uploads.index,
+			label: 'Arquivos',
+			icon: 'download',
+			protected: true,
+			subs: [
+				{ path: '/list', label: 'Listar', component: uploads.list },
+				{ path: '/new', label: 'Novo arquivo', component: uploads.new },
 			],
 		},
 

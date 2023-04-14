@@ -1,2 +1,0 @@
-(this["webpackJsonpacorn-react"]=this["webpackJsonpacorn-react"]||[]).push([[33],{955:function(e,t,c){"use strict";c.r(t);c(0);var n=c(7);t.default=function(){return Object(n.jsx)(n.Fragment,{children:"This is HomePage."})}}}]);
-//# sourceMappingURL=33.22bd751a.chunk.js.map

@@ -6,7 +6,8 @@ export const SERVICE_URL = '/app';
 export const USE_MULTI_LANGUAGE = false;
 export const API_URL = 'https://api-homolog.contaprivilege.com.br';
 export const APP_URL = 'https://app-homolog.contaprivilege.com.br';
-
+// export const API_URL = 'http://localhost:8000'
+// export const APP_URL = 'http://localhost:3000'
 
 
 export const REACT_HELMET_PROPS = {

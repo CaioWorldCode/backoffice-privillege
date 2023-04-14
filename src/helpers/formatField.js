@@ -10,6 +10,12 @@ import CsLineIcons from 'cs-line-icons/CsLineIcons'
 export default function formatField(fieldType, value, row) {
     let formated_value = value
 
+    function formatBytes(bytes, decimals = 2) {
+        var sizeInMB = (bytes / (1024*1024)).toFixed(2);
+
+        return sizeInMB
+    }
+
     switch (fieldType) {
         default:
 
@@ -90,8 +96,24 @@ export default function formatField(fieldType, value, row) {
                 </div>
             } else {
                 formated_value = <div >
-                <CsLineIcons stroke={'#a83232'} icon={'close'} size={15} />
-            </div>
+                    <CsLineIcons stroke={'#a83232'} icon={'close'} size={15} />
+                </div>
+            }
+            break;
+
+        case 'filename':
+            if (row?.extra?.filename) {
+                formated_value = <div>
+                    {row?.extra?.filename}
+                </div>
+            }
+            break;
+
+        case 'filesize':
+            if (row?.size) {
+                formated_value = <div>
+                    {formatBytes(row?.size)} MB
+                </div>
             }
             break;
     }
