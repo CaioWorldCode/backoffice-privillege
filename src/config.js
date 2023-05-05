@@ -4,8 +4,8 @@ export const IS_DEMO = false;
 export const IS_AUTH_GUARD_ACTIVE = true;
 export const SERVICE_URL = '/app';
 export const USE_MULTI_LANGUAGE = false;
-export const API_URL = 'https://api-homolog.contaprivilege.com.br';
-export const APP_URL = 'https://app-homolog.contaprivilege.com.br';
+export const API_URL = 'https://api.contaprivilege.com.br';
+export const APP_URL = 'https://app.contaprivilege.com.br';
 // export const API_URL = 'http://localhost:8000'
 // export const APP_URL = 'http://localhost:3000'
 
